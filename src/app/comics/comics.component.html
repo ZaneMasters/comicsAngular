@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div *ngFor="let comic of comics | paginate: { itemsPerPage: 4, currentPage:page }" class="col-md-6 mb-4">
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{comic.thumbnail.path}}.{{comic.thumbnail.extension}}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{comic.title}}</h5>
+                            <p class="card-text">{{comic.description ? comic.description:'Sin Descripción' }}</p>
+                            <hr>
+                            <h6 class="card-text">Precio: {{comic.prices[0].price}}</h6>
+                            <h6 class="card-text">UPC: {{comic.upc ? comic.upc:'Sin UPC'}}</h6>
+                            <h6 class="card-text">Fecha de venta: {{comic.dates[0].date | date: "MMMM d, y, h:mm:ss a z"}}</h6>
+                            <h6 class="card-text">Fecha de modificación: {{comic.modified }}</h6>
+                            <hr>
+                            <h6 class="card-text">Creadores</h6>
+                            <ul *ngFor="let item of comic.creators.items">
+                                <li>{{item.name}}</li>
+                            </ul>
+                            <hr>
+                            <h6 class="card-text">Personajes</h6>
+                            <ul *ngFor="let item of comic.characters.items">
+                                <li>{{item.name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+<pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+</div>
