@@ -1,17 +1,25 @@
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/" class="navbar-brand">Marvel APP</a>
+        <form class="d-flex" role="search" (submit)="searchHeroes()">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchTerm" name="searchInput">
+          <button class="btn btn-outline-info" type="submit">Search</button>
+        </form>
+      </div>    
+</nav>
 
 <div class="container">
     <div class="row">
-        <div *ngFor="let heroe of superhero | paginate: { itemsPerPage: 6, currentPage:page }" class="col-md-4">
+        <div *ngFor="let heroe of filteredHeroes | paginate: { itemsPerPage: 6, currentPage: page }" class="col-md-4">
             <div class="card">
-                <img src="{{heroe.thumbnail.path}}.{{heroe.thumbnail.extension}}" class="card-img-top "
-                    alt="{{heroe.name}}">
+                <img [src]="heroe.thumbnail.path + '.' + heroe.thumbnail.extension" class="card-img-top" alt="{{heroe.name}}">
                 <div class="card-body">
                     <h5 class="card-title">{{heroe.name}}</h5>
                     <hr>
-                    <p class="card-text">{{heroe.description ? heroe.description:'Sin Descripción' }}</p>
+                    <p class="card-text">{{heroe.description ? heroe.description : 'Sin Descripción' }}</p>
                     <hr>
                     <h6>Fecha modificación</h6>
-                    <p>{{heroe.modified | date: "MMMM d, y, h:mm:ss a z"}}</p>
+                    <p>{{heroe.modified | date: 'MMMM d, y, h:mm:ss a z'}}</p>
                     <button class="btn btn-primary" (click)="comics(heroe.id)">Comics</button>
                 </div>
             </div>
@@ -20,5 +28,7 @@
 </div>
 
 <div class="d-flex justify-content-center">
-<pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+    <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente">
+    </pagination-controls>
 </div>
+

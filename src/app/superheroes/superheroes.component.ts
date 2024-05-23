@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { MarvelService } from '../services/marvel.service';
 import { Router } from '@angular/router';
 
@@ -9,30 +10,36 @@ import { Router } from '@angular/router';
 })
 export class SuperheroesComponent implements OnInit {
   
-  private marvel = inject(MarvelService);
-  private router = inject(Router);
-
-  superhero: any[] = [];
+  public superhero: any[] = [];
+  public filteredHeroes: any[] = [];
   public page!: number;
-  
-  ngOnInit(): void {
+  public searchTerm: string = '';
 
+  constructor(private marvel: MarvelService, private router: Router) {}
+
+  ngOnInit(): void {
     this.mostrarHeroes();
   }
 
-
-  mostrarHeroes(){
-    this.marvel.getSuperHeroes().subscribe((respuesta: any) =>{
-
+  mostrarHeroes(): void {
+    this.marvel.getSuperHeroes().subscribe((respuesta: any) => {
       this.superhero = respuesta.data.results;
-
-    })
+      this.filteredHeroes = this.superhero;
+    });
   }
 
-  comics(id: string){
+  searchHeroes(): void {
+    if (this.searchTerm) {
+      this.filteredHeroes = this.superhero.filter(heroe =>
+        heroe.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.filteredHeroes = this.superhero;
+    }
+  }
+
+  comics(id: string): void {
     console.log(id);
     this.router.navigate(['/comics', id]);
   }
-
-
 }
